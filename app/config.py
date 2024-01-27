@@ -44,6 +44,4 @@ class Settings(BaseSettings):
             )
         return fastapi_kwargs
 
-
-
-
+settings = Settings()
