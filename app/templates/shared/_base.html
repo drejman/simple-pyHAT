@@ -22,17 +22,19 @@
   <link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}" type="text/css" />
 </head>
 <body>
-    {% block header %}
-    {% include "/shared/_header.html" %}
-    {% endblock %}
+    <div class="h-dvh">
+      {% block header %}
+      {% include "/shared/_header.html" %}
+      {% endblock %}
 
-    {% block content %}
-    <h1>Hello, there!</h1>
-    <img src="static/giphy.gif"></img>
-    {% endblock %}
+      {% block content %}
+      <h1>Hello, there!</h1>
+      <img src="static/giphy.gif"></img>
+      {% endblock %}
 
-    {% block footer %}
-    {% include "/shared/_footer.html" %}
-    {% endblock %}
+      {% block footer %}
+      {% include "/shared/_footer.html" %}
+      {% endblock %}
+    </div>
 </body>
 </html>
