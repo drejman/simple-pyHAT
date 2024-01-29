@@ -6,8 +6,13 @@
             <div class="flex flex-col justify-center items-center py-10">
                 <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">Welcome</h2>
                 <div class="flex flex-col justify-center content-center text-center">
-                    <img src="{{artist['cover_image']}}" />
-                    <span class="py-4 uppercase font-bold">{{artist["name"]}}</span>
+                    {% for artist in artists %}
+                        <div class="flex flex-col bg-slate-200 content-center justify-center text-center h-12">
+                            <span class="py-1 font-bold">
+                                <a href="/artist/{{artist['id']}}" class="text-cyan-800 hover:text-cyan-600">{{artist["name"]}}</a>
+                            </span>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
