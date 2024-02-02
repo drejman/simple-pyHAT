@@ -1,20 +1,32 @@
 {% extends "/shared/_base.html" %}
 
 {% block content %}
-    <div class="flex flex-row self-start w-full min-h-fit py-4 justify-center items-stretch bg-slate-50">
-        <section id="body" class="flex flex-col bg-slate-100 justify-center items-center max-w-screen-lg m-auto">
-            <div class="flex flex-col justify-center items-center py-10">
-                <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">Welcome</h2>
-                <div class="flex flex-col justify-center content-center text-center">
-                    {% for artist in artists %}
-                        <div class="flex flex-col bg-slate-200 content-center justify-center text-center h-12">
-                            <span class="py-1 font-bold">
-                                <a href="/artist/{{artist['id']}}" class="text-cyan-800 hover:text-cyan-600">{{artist["name"]}}</a>
-                            </span>
-                        </div>
-                    {% endfor %}
-                </div>
+    <section id="body" class="flex flex-col bg-slate-50 justify-center items-center max-w-[90dvw] m-auto">
+        <div class="flex flex-col justify-center items-center py-10 min-w-full">
+            <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">Catalog</h2>
+            <div id="main-info" class="flex flex-col px-24 py-6">
+                <p class="py-2">Take a gander at some of my favorite artists...</p>
+                </p>
+                <p class="py-2">I currently have {{ artists|length }} artists saved.</p>
             </div>
-        </section>
-    </div>
+            {% block artist_card %}
+            <div class="flex flex-row gap-4 flex-wrap justify-center content-center text-center w-full">
+                {% for artist in artists %}
+                <div id="{{ artist.id }}" class="flex flex-col bg-slate-200 hover:bg-teal-100 transition-colors ease-in-out rounded-lg content-center text-center basis-1/5 w-full"
+                     hx-get="/catalog"
+                     hx-swap="outerHTML">
+                    <span class="py-1 uppercase font-bold"><a href="{{ artist.website }}" class="text-cyan-800 hover:text-cyan-600">{{ artist.name }}</a></span>
+                    <!-- <img src="{{ artist.cover_image }}" /> -->
+                    <span class="px-1 text-xs text-slate-500 font-bold uppercase">Members</span>
+                    <div id="members" class="flex flex-col flex-wrap h-5/6 py-2">
+                        {% for member in artist.active_members %}
+                        <span class="px-1 text-sm text-slate-600">{{member}}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endblock %}
+        </div>
+    </section>
 {% endblock %}

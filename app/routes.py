@@ -1,23 +1,25 @@
 from fastapi import APIRouter, Request
-from fastapi.templating import Jinja2Templates
+from jinja2_fragments.fastapi import Jinja2Blocks
 
 from app.config import settings
-from app.crud import CRUD
+from app.repository.tinydb.CRUD import CRUD
+from app.repository.artist import ArtistRepository
 
 
-templates = Jinja2Templates(directory=settings.TEMPLATE_DIR)
+templates = Jinja2Blocks(directory=settings.TEMPLATE_DIR)
 router = APIRouter()
 
 
 @router.get("/")
 def index(request: Request):
-    db = CRUD.with_table("artist_info")
-    random_artist = db.get_random_item()
+    with ArtistRepository() as repository:
+        random_artist = repository.get_random_artist()
     return templates.TemplateResponse(
         "main.html",
         {
             "request": request,
             "artist": random_artist,
+            "page_title": "\N{Beamed Eighth Notes} Music Viewer",
         }
     )
 
@@ -47,8 +49,8 @@ def main(request: Request):
 
 @router.get("/catalog")
 def catalog(request: Request):
-    db = CRUD.with_table("artist_details")
-    artists = db.all_items()
+    with ArtistRepository() as repository:
+        artists = repository.get_all_artists()
     return templates.TemplateResponse(
         "catalog.html",
         {
@@ -59,15 +61,12 @@ def catalog(request: Request):
 
 @router.get("/artist/{artist_id}")
 def artist(request: Request, artist_id: int):
-    db = CRUD.with_table("artist_info")
-    artist = db.find(key="id", value=artist_id)[0]
-    db = CRUD.with_table("artist_details")
-    artist_details = db.find(key="id", value=artist_id)[0]
+    with ArtistRepository() as repository:
+        artist = repository.get_artist(id=artist_id)
     return templates.TemplateResponse(
         "artist.html",
         {
             "request": request,
             "artist": artist,
-            "details": artist_details,
         }
     )

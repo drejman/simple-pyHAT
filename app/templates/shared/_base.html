@@ -16,25 +16,29 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='favicon/apple-touch-icon.png') }}">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='favicon/favicon-32x32.png') }}">
   <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', path='favicon/favicon-16x16.png') }}">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="manifest" href="{{ url_for('static', path='favicon/site.webmanifest') }}">
 
   <!-- CSS -->
   <link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}" type="text/css" />
 </head>
 <body>
-    <div class="h-dvh">
-      {% block header %}
-      {% include "/shared/_header.html" %}
-      {% endblock %}
+      <div id="header">
+        {% block header %}
+        {% include "/shared/_header.html" %}
+        {% endblock %}
+      </div>
 
-      {% block content %}
-      <h1>Hello, there!</h1>
-      <img src="static/giphy.gif"></img>
-      {% endblock %}
+      <div id="body">
+        {% block content %}
+        <h1>Hello, there!</h1>
+        <img src="static/giphy.gif"></img>
+        {% endblock %}
+      </div>
 
-      {% block footer %}
-      {% include "/shared/_footer.html" %}
-      {% endblock %}
-    </div>
+      <div id="footer">
+        {% block footer %}
+        {% include "/shared/_footer.html" %}
+        {% endblock %}
+      </div>
 </body>
 </html>

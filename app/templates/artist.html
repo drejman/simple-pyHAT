@@ -4,10 +4,10 @@
     <div class="flex flex-row self-start w-full min-h-fit py-4 justify-center items-stretch bg-slate-50">
         <section id="body" class="flex flex-col bg-slate-100 justify-center items-center max-w-screen-lg m-auto">
             <div class="flex flex-col justify-center items-center py-10">
-                <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">{{artist["name"]}}</h2>
+                <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">{{ artist.name }}</h2>
                 <div class="flex flex-col justify-center content-center text-center">
-                    <img src="{{artist['cover_image']}}" />
-                    <span class="py-4">{{details["profile"]}}</span>
+                    <img src="{{ artist.cover_image }}" />
+                    <span class="py-4">{{ artist.profile }}</span>
                 </div>
             </div>
         </section>

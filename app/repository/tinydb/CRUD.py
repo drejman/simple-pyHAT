@@ -3,10 +3,7 @@ from random import randint
 
 from tinydb import Query, TinyDB
 
-from app.config import Settings
-
-settings = Settings()
-
+from app.config import settings
 
 
 class CRUD:
@@ -17,7 +14,7 @@ class CRUD:
 
     def all_items(self):
         if not self.db:
-            self.init_db
+            self._init_db()
         if self.table:
             self.db = self.table
         return self.db.all()
@@ -35,13 +32,18 @@ class CRUD:
         return self.table.search(q.search(f"{value}+", flags=re.IGNORECASE))
 
     def get_random_item(self):
-        if not self.table:
+        if self.table:
+            num = randint(0, len(self.table))
+        else:
             num = randint(0, len(self.db))
-            return self.db.get(doc_id=num)
-        num = randint(0, len(self.table))
-        return self.table.get(doc_id=num)
+        return self.get(id=num)
+    
+    def get(self, id):
+        if not self.table:
+            return self.db.get(doc_id=id)
+        return self.table.get(doc_id=id)
 
-    def init_db(self):
+    def _init_db(self):
         path = str(settings.DATA_DIR / "data.json")
         self.db = TinyDB(path, sort_keys=True, indent=4, separators=(",", ": "))
         return self.db
@@ -49,6 +51,6 @@ class CRUD:
     @classmethod
     def with_table(cls, table_name: str):
         crud = cls()
-        _db = crud.init_db()
+        _db = crud._init_db()
         _table = _db.table(table_name)
         return cls(db=_db, table=_table)
