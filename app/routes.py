@@ -61,10 +61,16 @@ def catalog(request: Request):
 
 @router.get("/artist/{artist_id}")
 def artist(request: Request, artist_id: int):
+    template = "artist"
+    if request.headers.get("HX-Request"):
+        template += "/details.html"
+    else:
+        template += "/artist.html"
+    
     with ArtistRepository() as repository:
         artist = repository.get_artist(id=artist_id)
     return templates.TemplateResponse(
-        "artist.html",
+        template,
         {
             "request": request,
             "artist": artist,
