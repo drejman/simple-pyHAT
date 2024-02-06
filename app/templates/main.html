@@ -14,7 +14,7 @@
         </div>
         <div class="flex flex-col justify-center content-center text-center">
             <img src="{{ artist.cover_image }}" />
-            <span class="py-4 uppercase font-bold">{{ artist.name }}</span>
+            <span class="py-4 uppercase font-bold"><a href="/artist/{{ artist.id }}" class="text-cyan-800 hover:text-cyan-600">{{ artist.name }}</a></span>
         </div>
     </div>
 </section>

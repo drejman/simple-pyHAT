@@ -10,10 +10,19 @@ class Artist:
     uri: str | None = None
     members: list[dict] = field(default_factory=list)
     profile: str | None = None
+    thumb: str | None = None
 
     def __post_init__(self):
         if not self.cover_image:
             self.cover_image =  "/static/missing.png"
+        
+        if not self.thumb:
+            self.thumb =  "/static/missing.png"
+        
+        if not self.profile:
+            self.profile = "No profile available"
+        else:
+            self.profile = self.profile.replace("[", "<").replace("]", ">")
 
     @property
     def website(self):

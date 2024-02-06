@@ -2,7 +2,6 @@ from fastapi import APIRouter, Request
 from jinja2_fragments.fastapi import Jinja2Blocks
 
 from app.config import settings
-from app.repository.tinydb.CRUD import CRUD
 from app.repository.artist import ArtistRepository
 
 
@@ -48,22 +47,30 @@ def main(request: Request):
 
 
 @router.get("/catalog")
-def catalog(request: Request):
+def catalog(request: Request, id: int | None = None):
     with ArtistRepository() as repository:
-        artists = repository.get_all_artists()
+        if request.headers.get("hx-request") and id:
+            block_name = "artist_card"
+            print(block_name)
+            artists = [repository.get_artist(id=id)]
+        else:
+            artists = repository.get_all_artists()
+            block_name=None
+
     return templates.TemplateResponse(
         "catalog.html",
         {
             "request": request,
             "artists": artists,
-        }
+        },
+        block_name=block_name,
     )
 
 @router.get("/artist/{artist_id}")
 def artist(request: Request, artist_id: int):
     template = "artist"
     if request.headers.get("HX-Request"):
-        template += "/details.html"
+        template += "/profile_partial.html"
     else:
         template += "/artist.html"
     
