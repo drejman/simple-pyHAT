@@ -40,4 +40,9 @@ class ArtistRepository:
         artist_data = self.artist_details.find(key=join_key, value=artist_info[join_key])[0]
         artist_data |= artist_info
         return self.factory.create(artist_data)
+    
+    def search_names(self, search: str) -> list[Artist]:
+        search_results = self.artist_details.search(key="name", value=search)
+        if search_results:
+            return [self.factory.create(data=data) for data in search_results]
 

@@ -25,6 +25,8 @@ class Settings(BaseSettings):
 
     DISABLE_DOCS: bool = True
 
+    SEARCH_LENGTH: int = 150
+
     @property
     def fastapi_kwargs(self) -> dict[str, Any]:
         """Creates dictionary of values to pass to FastAPI app

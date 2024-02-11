@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Request
+from typing import Annotated
+
+from fastapi import APIRouter, Form, Request
 from jinja2_fragments.fastapi import Jinja2Blocks
 
 from app.config import settings
@@ -31,7 +33,7 @@ def hello(request: Request):
             "request": request,
             "page_title": "\N{Waving Hand Sign} Hello there!",
         }
-        )
+    )
 
 
 @router.get("/main")
@@ -43,7 +45,7 @@ def main(request: Request):
             "page_description": "Main page for pyHAT (python, htmx, awsgi, tailwind)",
             "page_title": "Main page",
         }
-        )
+    )
 
 
 @router.get("/catalog")
@@ -82,4 +84,41 @@ def artist(request: Request, artist_id: int):
             "request": request,
             "artist": artist,
         }
+    )
+
+@router.get("/search")
+def search(request: Request):
+    """Search page - display information about artists in database."""
+    block_name = None
+    if request.headers.get("hx-request"):
+        block_name = "content"
+    results = []
+
+    return templates.TemplateResponse(
+        "search.html",
+        {
+            "request": request,
+            "results": results
+        },
+        block_name=block_name
+    )
+
+@router.post("/search")
+def search_post(request: Request, search: Annotated[str, Form()]):
+    if request.headers.get("HX-Request"):
+        block_name = "search_results"
+    else:
+        block_name = "content"
+
+    with ArtistRepository() as repository:
+        search_results = repository.search_names(search=search)
+    
+
+    return templates.TemplateResponse(
+        "search.html",
+        {
+            "request": request,
+            "results": search_results,
+        },
+        block_name=block_name,
     )

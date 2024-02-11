@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 
+from app.config import settings
+
 
 @dataclass
 class Artist:
@@ -36,3 +38,7 @@ class Artist:
             return [self.name]
         active_members = [member["name"] for member in self.members if member.get("active") and member.get("name")]
         return active_members[:10]
+    
+    @property
+    def short_profile(self):
+        return f"{self.profile[:settings.SEARCH_LENGTH]}..."

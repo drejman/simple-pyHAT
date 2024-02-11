@@ -3,7 +3,7 @@
     <span class="py-1 uppercase font-bold"><a href="{{ artist.website }}" class="text-cyan-800 hover:text-cyan-600">{{artist["name"]}}</a></span>
     <span class="px-1 text-xs text-slate-500 font-bold uppercase">Profile</span>
     <div class="flex flex-col my-2 h-full w-full overflow-y-auto overflow-x-clip">
-        <p class="text-xs text-slate-600 h-full px-2 w-full">{{ artist.profile |safe}}</p>
+        <p class="text-xs text-slate-600 h-full px-2 w-full">{{ artist.profile | safe }}</p>
     </div>
     <p class="text-xs uppercase text-slate-600"><a href="{{ artist.website }}">more info</a></p>
 </div>

@@ -1,0 +1,23 @@
+{% extends "/shared/_base.html" %}
+
+{% block content %}
+<section id="body" class="flex flex-col bg-slate-50 justify-center items-center max-w-[90dvw] m-auto">
+    <div class="flex flex-col justify-center items-center py-10 min-w-full">
+        <h2 class="text-2xl leading-relaxed text-slate-800 uppercase">Search Results</h2>
+        {% block search_results %}
+            <div id="search-results" class="flex flex-col flex-wrap justify-center content-center text-center w-full">
+                {% if results | list %}
+                    {% for artist in results %}
+                    <div id="artist-{{ artist.id }}" class="py-4">
+                        <p><a href="/artist/{{ artist.id }}" class="text-cyan-800 hover:text-cyan-600">{{ artist.name }}</a></p>
+                        <p>{{ artist.short_profile | safe }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No results found.</p>
+                {% endif %}
+            </div>
+        {% endblock %}
+    </div>
+</section>
+{% endblock %}
